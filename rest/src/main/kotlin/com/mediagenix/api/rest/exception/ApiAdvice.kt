@@ -11,5 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 class ApiAdvice {
 
     @ExceptionHandler(EntityNotFoundException::class)
-    fun handleEntityNotFoundException(e: EntityNotFoundException)= ResponseEntity(ErrorResponseDto("Requested entity has not been found"), HttpStatus.NOT_FOUND)
+    fun handleEntityNotFoundException(e: EntityNotFoundException): ResponseEntity<ErrorResponseDto> {
+        return ResponseEntity(ErrorResponseDto("Requested ".plus(e.entity).plus(" has not been found")), HttpStatus.NOT_FOUND)
+    }
 }

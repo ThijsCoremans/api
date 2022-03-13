@@ -1,3 +1,3 @@
 package com.mediagenix.api.core.exception
 
-class EntityNotFoundException: RuntimeException()
+open class EntityNotFoundException(val entity: String): RuntimeException()

@@ -57,7 +57,7 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
         mockMvc.get(booksPath.plus("/100"))
             .andExpect {
                 status { isNotFound() }
-                jsonPath("$.message") { value("Requested entity has not been found") }
+                jsonPath("$.message") { value("Requested book has not been found") }
             }
     }
 
@@ -104,10 +104,18 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
                 status { isOk() }
             }
 
-
         mockMvc.get(booksPath.plus("/52"))
             .andExpect {
                 status { isNotFound() }
+            }
+    }
+
+    @Test
+    fun `deleteBook should send not found with message if book not found`() {
+        mockMvc.delete(booksPath.plus("/100"))
+            .andExpect {
+                status { isNotFound() }
+                jsonPath("$.message") { value("Requested book has not been found") }
             }
     }
 }

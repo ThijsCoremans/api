@@ -1,6 +1,6 @@
 package com.mediagenix.api.persistence.infrastructure
 
-import com.mediagenix.api.core.exception.EntityNotFoundException
+import com.mediagenix.api.core.exception.BookNotFoundException
 import com.mediagenix.api.core.infrastructure.BookInfrastructure
 import com.mediagenix.api.core.model.Book
 import com.mediagenix.api.persistence.mapper.BookEntityMapper
@@ -18,7 +18,7 @@ class BookInfrastructureImpl(private val bookRepository: BookRepository,
     override fun getBookById(bookId: Long): Book {
         return bookRepository.findById(bookId)
             .map { bookEntity -> bookEntityMapper.mapBookEntityToBook(bookEntity) }
-            .orElseThrow { EntityNotFoundException() }
+            .orElseThrow { BookNotFoundException() }
     }
 
     override fun createBook(book: Book): Book {
@@ -32,6 +32,9 @@ class BookInfrastructureImpl(private val bookRepository: BookRepository,
     }
 
     override fun deleteBookById(bookId: Long) {
+        if (!bookRepository.existsById(bookId)) {
+            throw BookNotFoundException()
+        }
         bookRepository.deleteById(bookId)
     }
 }

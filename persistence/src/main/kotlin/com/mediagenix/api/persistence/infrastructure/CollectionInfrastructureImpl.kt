@@ -1,6 +1,7 @@
 package com.mediagenix.api.persistence.infrastructure
 
-import com.mediagenix.api.core.exception.EntityNotFoundException
+import com.mediagenix.api.core.exception.BookNotFoundException
+import com.mediagenix.api.core.exception.CollectionNotFoundException
 import com.mediagenix.api.core.infrastructure.CollectionInfrastructure
 import com.mediagenix.api.core.model.Collection
 import com.mediagenix.api.persistence.entity.Book
@@ -23,7 +24,7 @@ class CollectionInfrastructureImpl(private val collectionRepository: CollectionR
     override fun getCollectionById(collectionId: Long): Collection {
         return collectionRepository.findById(collectionId)
             .map { collectionEntity -> collectionEntityMapper.mapCollectionEntityToCollection(collectionEntity) }
-            .orElseThrow { EntityNotFoundException() }
+            .orElseThrow { CollectionNotFoundException() }
     }
 
     override fun createCollection(collection: Collection): Collection {
@@ -37,18 +38,21 @@ class CollectionInfrastructureImpl(private val collectionRepository: CollectionR
     }
 
     override fun deleteCollectionById(collectionId: Long) {
+        if (!collectionRepository.existsById(collectionId)) {
+            throw CollectionNotFoundException()
+        }
         collectionRepository.deleteById(collectionId)
     }
 
     override fun addBookToCollection(collectionId: Long, bookId: Long) {
         val optCollection: Optional<com.mediagenix.api.persistence.entity.Collection> = collectionRepository.findById(collectionId)
         if (optCollection.isEmpty) {
-            throw EntityNotFoundException()
+            throw CollectionNotFoundException()
         }
         val collection: com.mediagenix.api.persistence.entity.Collection = optCollection.get()
         val optBook: Optional<Book> = bookRepository.findById(bookId)
         if (optBook.isEmpty) {
-            throw EntityNotFoundException()
+            throw BookNotFoundException()
         }
 
         collection.books.add(optBook.get())
@@ -58,7 +62,7 @@ class CollectionInfrastructureImpl(private val collectionRepository: CollectionR
     override fun deleteBookFromCollection(collectionId: Long, bookId: Long) {
         val optCollection: Optional<com.mediagenix.api.persistence.entity.Collection> = collectionRepository.findById(collectionId)
         if (optCollection.isEmpty) {
-            throw EntityNotFoundException()
+            throw CollectionNotFoundException()
         }
 
         val collection: com.mediagenix.api.persistence.entity.Collection = optCollection.get()
