@@ -12,11 +12,11 @@ import org.springframework.test.web.servlet.put
 
 internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationTest() {
 
-    private val bookPath = "/books"
+    private val booksPath = "/books"
 
     @Test
     fun `getAllBooks returns list of all books`() {
-        mockMvc.get(bookPath)
+        mockMvc.get(booksPath)
             .andExpect {
                 status { isOk() }
                 content { contentType(MediaType.APPLICATION_JSON) }
@@ -41,7 +41,7 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
 
     @Test
     fun `getBookById should return the book by given id`() {
-        mockMvc.get(bookPath.plus("/52"))
+        mockMvc.get(booksPath.plus("/52"))
             .andExpect {
                 status { isOk() }
                 content { contentType(MediaType.APPLICATION_JSON) }
@@ -54,7 +54,7 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
 
     @Test
     fun `getBookById should send not found with message if book not found`() {
-        mockMvc.get(bookPath.plus("/100"))
+        mockMvc.get(booksPath.plus("/100"))
             .andExpect {
                 status { isNotFound() }
                 jsonPath("$.message") { value("Requested entity has not been found") }
@@ -65,7 +65,7 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
     fun `createBook should create and return given book`() {
         val createBookDto = CreateBookDto("title", "isbn", "author")
 
-        mockMvc.post(bookPath) {
+        mockMvc.post(booksPath) {
             contentType = MediaType.APPLICATION_JSON
             content = jacksonObjectMapper().writeValueAsString(createBookDto)
         }
@@ -83,7 +83,7 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
     fun `updateBook should update and return a book`() {
         val bookDto = BookDto(52,"Brief Answers to the Big Questions v2", "978-1984819192", "Stephen Hawking")
 
-        mockMvc.put(bookPath) {
+        mockMvc.put(booksPath) {
             contentType = MediaType.APPLICATION_JSON
             content = jacksonObjectMapper().writeValueAsString(bookDto)
         }
@@ -99,13 +99,13 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
 
     @Test
     fun `deleteBook should delete given book`() {
-        mockMvc.delete(bookPath.plus("/52"))
+        mockMvc.delete(booksPath.plus("/52"))
             .andExpect {
                 status { isOk() }
             }
 
 
-        mockMvc.get(bookPath.plus("/52"))
+        mockMvc.get(booksPath.plus("/52"))
             .andExpect {
                 status { isNotFound() }
             }
