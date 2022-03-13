@@ -18,14 +18,14 @@ class BookDtoMapperImpl: BookDtoMapper {
     }
 
     override fun mapBookToBookDto(book: Book): BookDto {
-        return BookDto(book.id, book.title, book.ISBN, book.author)
+        return BookDto(book.id, book.title, book.isbn, book.author)
     }
 
     override fun mapBookDtoToBook(bookDto: BookDto): Book {
-        return Book(bookDto.id, bookDto.title, bookDto.ISBN, bookDto.author)
+        return Book(bookDto.id, bookDto.title, bookDto.isbn, bookDto.author)
     }
 
     override fun mapCreateBookDtoToBook(createBookDto: CreateBookDto): Book {
-        return Book(null, createBookDto.title, createBookDto.ISBN, createBookDto.author)
+        return Book(null, createBookDto.title, createBookDto.isbn, createBookDto.author)
     }
 }

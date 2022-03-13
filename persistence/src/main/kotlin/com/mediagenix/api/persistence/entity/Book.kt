@@ -12,7 +12,7 @@ class Book(
     var title: String? = null,
 
     @Column(unique = true)
-    var ISBN: String? = null,
+    var isbn: String? = null,
 
     var author: String? = null
 ): AbstractEntity() {
@@ -25,7 +25,7 @@ class Book(
 
         if (id != other.id) return false
         if (title != other.title) return false
-        if (ISBN != other.ISBN) return false
+        if (isbn != other.isbn) return false
         if (author != other.author) return false
 
         return true
@@ -34,12 +34,12 @@ class Book(
     override fun hashCode(): Int {
         var result = id?.hashCode() ?: 0
         result = 31 * result + (title?.hashCode() ?: 0)
-        result = 31 * result + (ISBN?.hashCode() ?: 0)
+        result = 31 * result + (isbn?.hashCode() ?: 0)
         result = 31 * result + (author?.hashCode() ?: 0)
         return result
     }
 
     override fun toString(): String {
-        return "Book(id=$id, title=$title, ISBN=$ISBN, author=$author)"
+        return "Book(id=$id, title=$title, isbn=$isbn, author=$author)"
     }
 }

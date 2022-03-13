@@ -18,10 +18,10 @@ class BookEntityMapperImpl: BookEntityMapper {
     }
 
     override fun mapBookEntityToBook(bookEntity: Book): com.mediagenix.api.core.model.Book {
-        return com.mediagenix.api.core.model.Book(bookEntity.id, bookEntity.title, bookEntity.ISBN, bookEntity.author)
+        return com.mediagenix.api.core.model.Book(bookEntity.id, bookEntity.title, bookEntity.isbn, bookEntity.author)
     }
 
     override fun mapBookToBookEntity(book: com.mediagenix.api.core.model.Book): Book {
-        return Book(book.id, book.title, book.ISBN, book.author)
+        return Book(book.id, book.title, book.isbn, book.author)
     }
 }
