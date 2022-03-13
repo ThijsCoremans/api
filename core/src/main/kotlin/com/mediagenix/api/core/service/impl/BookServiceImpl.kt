@@ -1,6 +1,5 @@
 package com.mediagenix.api.core.service.impl
 
-import com.mediagenix.api.core.exception.EntityNotFoundException
 import com.mediagenix.api.core.infrastructure.BookInfrastructure
 import com.mediagenix.api.core.model.Book
 import com.mediagenix.api.core.service.BookService

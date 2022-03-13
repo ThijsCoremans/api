@@ -1,7 +1,6 @@
 package com.mediagenix.api.core.infrastructure
 
 import com.mediagenix.api.core.model.Collection
-import java.util.Optional
 
 interface CollectionInfrastructure {
     fun getALlCollections(): MutableList<Collection>
