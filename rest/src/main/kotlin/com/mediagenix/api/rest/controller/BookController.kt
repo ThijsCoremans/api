@@ -28,7 +28,7 @@ class BookController(private val bookService: BookService,
         return bookDtoMapper.mapBookToBookDto(bookService.createBook(book))
     }
 
-    @PutMapping
+    @PutMapping("/{bookId}")
     fun updateBook(@RequestBody bookDto: BookDto): BookDto {
         val book: Book = bookDtoMapper.mapBookDtoToBook(bookDto)
         return bookDtoMapper.mapBookToBookDto(bookService.updateBook(book))
