@@ -120,7 +120,7 @@ internal class CollectionControllerIntegrationTest: AbstractRestControllerIntegr
     }
 
     @Test
-    fun `deleteBook should delete given book`() {
+    fun `deleteCollection should delete given book`() {
         mockMvc.delete(collectionsPath.plus("/50"))
             .andExpect {
                 status { isOk() }
@@ -133,9 +133,19 @@ internal class CollectionControllerIntegrationTest: AbstractRestControllerIntegr
     }
 
     @Test
+    fun `deleteCollection should send not found with message if collection not found`() {
+        mockMvc.delete(collectionsPath.plus("/100"))
+            .andExpect {
+                status { isNotFound() }
+                jsonPath("$.message") { value("Requested collection has not been found") }
+            }
+    }
+
+    @Test
     fun `addBookToCollection should add a book to a collection`() {
         mockMvc.post(collectionsPath.plus("/50/books/53"))
             .andExpect {
+                status { isOk() }
                 jsonPath("$.id") { value(50) }
                 jsonPath("$.name") { value("Stephen King") }
                 jsonPath("$.books[0].id") { value(53) }
@@ -146,6 +156,24 @@ internal class CollectionControllerIntegrationTest: AbstractRestControllerIntegr
                 jsonPath("$.books[1].title") { value("Rita Hayworth and Shawshank Redemption") }
                 jsonPath("$.books[1].isbn") { value("978-1982155759") }
                 jsonPath("$.books[1].author") { value("Stephen King") }
+            }
+    }
+
+    @Test
+    fun `addBookToCollection should send not found with message if collection not found`() {
+        mockMvc.post(collectionsPath.plus("/100/books/53"))
+            .andExpect {
+                status { isNotFound() }
+                jsonPath("$.message") { value("Requested collection has not been found") }
+            }
+    }
+
+    @Test
+    fun `addBookToCollection should send not found with message if book not found`() {
+        mockMvc.post(collectionsPath.plus("/50/books/100"))
+            .andExpect {
+                status { isNotFound() }
+                jsonPath("$.message") { value("Requested book has not been found") }
             }
     }
 
@@ -167,6 +195,24 @@ internal class CollectionControllerIntegrationTest: AbstractRestControllerIntegr
                 jsonPath("$.books[0].title") { value("Brief Answers to the Big Questions") }
                 jsonPath("$.books[0].isbn") { value("978-1984819192") }
                 jsonPath("$.books[0].author") { value("Stephen Hawking") }
+            }
+    }
+
+    @Test
+    fun `deleteBookFromCollection should send not found with message if collection not found`() {
+        mockMvc.delete(collectionsPath.plus("/100/books/51"))
+            .andExpect {
+                status { isNotFound() }
+                jsonPath("$.message") { value("Requested collection has not been found") }
+            }
+    }
+
+    @Test
+    fun `deleteBookFromCollection should send not found with message if book not found in collection`() {
+        mockMvc.delete(collectionsPath.plus("/51/books/100"))
+            .andExpect {
+                status { isNotFound() }
+                jsonPath("$.message") { value("Requested book has not been found") }
             }
     }
 }

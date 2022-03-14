@@ -72,6 +72,10 @@ class CollectionInfrastructureImpl(private val collectionRepository: CollectionR
         }
 
         val collection: com.mediagenix.api.persistence.entity.Collection = optCollection.get()
+        if (!collection.books.any { it.id == bookId }) {
+            throw BookNotFoundException()
+        }
+
         collection.books = collection.books.filter { book -> book.id != bookId } as MutableList<Book>
         collectionRepository.save(collection)
     }

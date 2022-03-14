@@ -62,4 +62,11 @@ internal class CollectionInfrastructureImplTest {
 
         assertThrows(CollectionNotFoundException::class.java) { collectionInfrastructure.deleteBookFromCollection(1, 1) }
     }
+
+    @Test
+    fun `deleteBookFromCollection throws exception if book not found in collection`() {
+        every { collectionRepository.findById(any()) } returns Optional.of(com.mediagenix.api.persistence.entity.Collection(1, "name", arrayListOf()))
+
+        assertThrows(BookNotFoundException::class.java) { collectionInfrastructure.deleteBookFromCollection(1, 1) }
+    }
 }
