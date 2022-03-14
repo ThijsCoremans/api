@@ -6,15 +6,16 @@ import javax.persistence.*
 @Entity
 class Collection(
     @Id
+    @Column(name = "collection_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "collection_gen")
     @SequenceGenerator(name = "collection_gen", sequenceName = "collection_gen", allocationSize = 1)
     val id: Long? = null,
 
     var name: String? = null,
 
-    @OneToMany
-    @JoinColumn(name = "collection_id")
-    var books: MutableList<Book> = emptyList()
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
+    @JoinTable(name = "collection_books", joinColumns = [JoinColumn(name = "collection_id")], inverseJoinColumns = [JoinColumn(name = "book_id")])
+    var books: MutableList<Book> = arrayListOf()
 ): AbstractEntity() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

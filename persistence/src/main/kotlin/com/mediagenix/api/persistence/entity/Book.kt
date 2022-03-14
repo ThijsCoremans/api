@@ -5,6 +5,7 @@ import javax.persistence.*
 @Entity
 class Book(
     @Id
+    @Column(name = "book_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_gen")
     @SequenceGenerator(name = "book_gen", sequenceName = "book_gen", allocationSize = 1)
     val id: Long? = null,
@@ -16,6 +17,9 @@ class Book(
 
     var author: String? = null
 ): AbstractEntity() {
+
+    @ManyToMany(mappedBy = "books", cascade = [CascadeType.MERGE, CascadeType.REMOVE])
+    var collections: MutableList<Collection> = arrayListOf()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
