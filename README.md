@@ -8,6 +8,6 @@ PostgresQL database
 docker run --name pgsql -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
 ```
 ## Start application
-Use the dev profile to run the application
+Use the 'dev' profile to run the application
 ## Testing
 The integration tests start with the 'tests' profile which will start a h2 database
