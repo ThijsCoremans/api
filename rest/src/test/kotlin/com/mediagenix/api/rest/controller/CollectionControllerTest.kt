@@ -1,8 +1,8 @@
 package com.mediagenix.api.rest.controller
 
 import com.mediagenix.api.core.service.CollectionService
-import com.mediagenix.api.rest.dto.collection.CollectionDto
 import com.mediagenix.api.rest.dto.collection.CreateCollectionDto
+import com.mediagenix.api.rest.dto.collection.UpdateCollectionDto
 import com.mediagenix.api.rest.mapper.CollectionDtoMapper
 import io.mockk.mockk
 import io.mockk.verify
@@ -41,9 +41,9 @@ internal class CollectionControllerTest {
 
     @Test
     fun `updateCollection should call service and mapper`() {
-        collectionController.updateCollection(CollectionDto(1, "my collection", arrayListOf()))
+        collectionController.updateCollection(1, UpdateCollectionDto(("my collection")))
 
-        verify(exactly = 1) { collectionDtoMapper.mapCollectionDtoToCollection(any()) }
+        verify(exactly = 1) { collectionDtoMapper.mapUpdateCollectionDtoToCollection(1, any()) }
         verify(exactly = 1) { collectionService.updateCollection(any()) }
         verify(exactly = 1) { collectionDtoMapper.mapCollectionToCollectionDto(any()) }
     }

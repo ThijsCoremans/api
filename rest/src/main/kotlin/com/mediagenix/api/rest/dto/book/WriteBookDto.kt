@@ -1,6 +1,6 @@
 package com.mediagenix.api.rest.dto.book
 
-data class CreateBookDto(
+data class WriteBookDto(
     val title: String?,
     val isbn: String?,
     val author: String?

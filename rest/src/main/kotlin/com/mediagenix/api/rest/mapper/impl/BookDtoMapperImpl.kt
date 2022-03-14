@@ -2,7 +2,7 @@ package com.mediagenix.api.rest.mapper.impl
 
 import com.mediagenix.api.core.model.Book
 import com.mediagenix.api.rest.dto.book.BookDto
-import com.mediagenix.api.rest.dto.book.CreateBookDto
+import com.mediagenix.api.rest.dto.book.WriteBookDto
 import com.mediagenix.api.rest.mapper.BookDtoMapper
 import org.springframework.stereotype.Component
 
@@ -25,7 +25,11 @@ class BookDtoMapperImpl: BookDtoMapper {
         return Book(bookDto.id, bookDto.title, bookDto.isbn, bookDto.author)
     }
 
-    override fun mapCreateBookDtoToBook(createBookDto: CreateBookDto): Book {
-        return Book(null, createBookDto.title, createBookDto.isbn, createBookDto.author)
+    override fun mapWriteBookDtoToBook(writeBookDto: WriteBookDto): Book {
+        return Book(null, writeBookDto.title, writeBookDto.isbn, writeBookDto.author)
+    }
+
+    override fun mapWriteBookDtoToBook(bookId: Long, writeBookDto: WriteBookDto): Book {
+        return Book(bookId, writeBookDto.title, writeBookDto.isbn, writeBookDto.author)
     }
 }

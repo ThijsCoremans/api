@@ -3,6 +3,7 @@ package com.mediagenix.api.rest.mapper.impl
 import com.mediagenix.api.core.model.Collection
 import com.mediagenix.api.rest.dto.collection.CollectionDto
 import com.mediagenix.api.rest.dto.collection.CreateCollectionDto
+import com.mediagenix.api.rest.dto.collection.UpdateCollectionDto
 import com.mediagenix.api.rest.mapper.BookDtoMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -45,6 +46,11 @@ internal class CollectionDtoMapperImplTest {
         assertEquals(createCollection(null), collectionDtoMapper.mapCreateCollectionDtoToCollection(createCreateCollectionDto()))
     }
 
+    @Test
+    fun `mapUpdateCollectionDtoToCollection should map correct values`() {
+        assertEquals(createCollection(1), collectionDtoMapper.mapUpdateCollectionDtoToCollection(1, createUpdateCollectionDto()))
+    }
+
     private fun createCollection(id: Long?): Collection {
         return Collection(id, "my collection", arrayListOf())
     }
@@ -55,5 +61,9 @@ internal class CollectionDtoMapperImplTest {
 
     private fun createCreateCollectionDto(): CreateCollectionDto {
         return CreateCollectionDto("my collection", arrayListOf())
+    }
+
+    private fun createUpdateCollectionDto(): UpdateCollectionDto {
+        return UpdateCollectionDto("my collection")
     }
 }

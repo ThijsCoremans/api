@@ -2,7 +2,7 @@ package com.mediagenix.api.rest.mapper.impl
 
 import com.mediagenix.api.core.model.Book
 import com.mediagenix.api.rest.dto.book.BookDto
-import com.mediagenix.api.rest.dto.book.CreateBookDto
+import com.mediagenix.api.rest.dto.book.WriteBookDto
 import com.mediagenix.api.rest.mapper.BookDtoMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -48,8 +48,13 @@ internal class BookDtoMapperImplTest {
     }
 
     @Test
-    fun `mapCreateBookDtoToBook should map correct values`() {
-        assertEquals(createBook(null), bookDtoMapper.mapCreateBookDtoToBook(createCreateBookDto()))
+    fun `mapWriteBookDtoToBook should map correct values`() {
+        assertEquals(createBook(null), bookDtoMapper.mapWriteBookDtoToBook(createWriteBookDto()))
+    }
+
+    @Test
+    fun `mapWriteBookDtoToBook should map id and correct values`() {
+        assertEquals(createBook(1), bookDtoMapper.mapWriteBookDtoToBook(1, createWriteBookDto()))
     }
 
     private fun createBook(id: Long?): Book {
@@ -60,7 +65,7 @@ internal class BookDtoMapperImplTest {
         return BookDto(1, "book", "isbn", "author")
     }
 
-    private fun createCreateBookDto(): CreateBookDto {
-        return CreateBookDto("book", "isbn", "author")
+    private fun createWriteBookDto(): WriteBookDto {
+        return WriteBookDto("book", "isbn", "author")
     }
 }

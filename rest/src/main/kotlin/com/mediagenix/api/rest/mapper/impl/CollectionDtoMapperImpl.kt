@@ -4,6 +4,7 @@ import com.mediagenix.api.core.model.Book
 import com.mediagenix.api.core.model.Collection
 import com.mediagenix.api.rest.dto.collection.CollectionDto
 import com.mediagenix.api.rest.dto.collection.CreateCollectionDto
+import com.mediagenix.api.rest.dto.collection.UpdateCollectionDto
 import com.mediagenix.api.rest.mapper.BookDtoMapper
 import com.mediagenix.api.rest.mapper.CollectionDtoMapper
 import org.springframework.stereotype.Component
@@ -27,5 +28,9 @@ class CollectionDtoMapperImpl(private val bookDtoMapper: BookDtoMapper): Collect
     override fun mapCreateCollectionDtoToCollection(createCollectionDto: CreateCollectionDto): Collection {
         val books: MutableList<Book> = bookDtoMapper.mapBookDtosToBooks(createCollectionDto.books)
         return Collection(null, createCollectionDto.name, books)
+    }
+
+    override fun mapUpdateCollectionDtoToCollection(collectionId: Long, updateCollectionDto: UpdateCollectionDto): Collection {
+        return Collection(collectionId, updateCollectionDto.name, arrayListOf())
     }
 }

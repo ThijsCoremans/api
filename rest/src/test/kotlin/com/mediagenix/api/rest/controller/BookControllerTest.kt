@@ -1,8 +1,7 @@
 package com.mediagenix.api.rest.controller
 
 import com.mediagenix.api.core.service.BookService
-import com.mediagenix.api.rest.dto.book.BookDto
-import com.mediagenix.api.rest.dto.book.CreateBookDto
+import com.mediagenix.api.rest.dto.book.WriteBookDto
 import com.mediagenix.api.rest.mapper.BookDtoMapper
 import io.mockk.mockk
 import io.mockk.verify
@@ -32,18 +31,18 @@ internal class BookControllerTest {
 
     @Test
     fun `createBook should call service and mapper`() {
-        bookController.createBook(CreateBookDto("title", "isbn", "author"))
+        bookController.createBook(WriteBookDto("title", "isbn", "author"))
 
-        verify(exactly = 1) { bookDtoMapper.mapCreateBookDtoToBook(any()) }
+        verify(exactly = 1) { bookDtoMapper.mapWriteBookDtoToBook(any()) }
         verify(exactly = 1) { bookService.createBook(any()) }
         verify(exactly = 1) { bookDtoMapper.mapBookToBookDto(any()) }
     }
 
     @Test
     fun `updateBook should call service and mapper`() {
-        bookController.updateBook(BookDto(1, "title", "isbn", "author"))
+        bookController.updateBook(1, WriteBookDto("title", "isbn", "author"))
 
-        verify(exactly = 1) { bookDtoMapper.mapBookDtoToBook(any()) }
+        verify(exactly = 1) { bookDtoMapper.mapWriteBookDtoToBook(1, any()) }
         verify(exactly = 1) { bookService.updateBook(any()) }
         verify(exactly = 1) { bookDtoMapper.mapBookToBookDto(any()) }
     }

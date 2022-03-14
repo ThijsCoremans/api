@@ -33,7 +33,13 @@ class CollectionInfrastructureImpl(private val collectionRepository: CollectionR
     }
 
     override fun updateCollection(collection: Collection): Collection {
-        val collectionEntity: com.mediagenix.api.persistence.entity.Collection = collectionEntityMapper.mapCollectionToCollectionEntity(collection)
+        val optCollection: Optional<com.mediagenix.api.persistence.entity.Collection> = collectionRepository.findById(collection.id)
+        if (optCollection.isEmpty) {
+            throw CollectionNotFoundException()
+        }
+
+        var collectionEntity: com.mediagenix.api.persistence.entity.Collection = optCollection.get()
+        collectionEntity.name = collection.name
         return collectionEntityMapper.mapCollectionEntityToCollection(collectionRepository.save(collectionEntity))
     }
 
@@ -44,7 +50,7 @@ class CollectionInfrastructureImpl(private val collectionRepository: CollectionR
         collectionRepository.deleteById(collectionId)
     }
 
-    override fun addBookToCollection(collectionId: Long, bookId: Long) {
+    override fun addBookToCollection(collectionId: Long, bookId: Long): Collection {
         val optCollection: Optional<com.mediagenix.api.persistence.entity.Collection> = collectionRepository.findById(collectionId)
         if (optCollection.isEmpty) {
             throw CollectionNotFoundException()
@@ -56,7 +62,7 @@ class CollectionInfrastructureImpl(private val collectionRepository: CollectionR
         }
 
         collection.books.add(optBook.get())
-        collectionRepository.save(collection)
+        return collectionEntityMapper.mapCollectionEntityToCollection(collectionRepository.save(collection))
     }
 
     override fun deleteBookFromCollection(collectionId: Long, bookId: Long) {

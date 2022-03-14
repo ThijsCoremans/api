@@ -19,6 +19,7 @@ class CollectionEntityMapperImpl(private val bookEntityMapper: BookEntityMapper)
 
     override fun mapCollectionEntityToCollection(collectionEntity: Collection): com.mediagenix.api.core.model.Collection {
         val books: MutableList<com.mediagenix.api.core.model.Book> = bookEntityMapper.mapBookEntitiesToBooks(collectionEntity.books)
+        books.sortBy { it.title }
         return com.mediagenix.api.core.model.Collection(collectionEntity.id, collectionEntity.name, books)
     }
 

@@ -3,7 +3,7 @@ package com.mediagenix.api.rest.controller
 import com.mediagenix.api.core.model.Book
 import com.mediagenix.api.core.service.BookService
 import com.mediagenix.api.rest.dto.book.BookDto
-import com.mediagenix.api.rest.dto.book.CreateBookDto
+import com.mediagenix.api.rest.dto.book.WriteBookDto
 import com.mediagenix.api.rest.mapper.BookDtoMapper
 import org.springframework.web.bind.annotation.*
 
@@ -23,14 +23,14 @@ class BookController(private val bookService: BookService,
     }
 
     @PostMapping
-    fun createBook(@RequestBody createBookDto: CreateBookDto): BookDto {
-        val book: Book = bookDtoMapper.mapCreateBookDtoToBook(createBookDto)
+    fun createBook(@RequestBody writeBookDto: WriteBookDto): BookDto {
+        val book: Book = bookDtoMapper.mapWriteBookDtoToBook(writeBookDto)
         return bookDtoMapper.mapBookToBookDto(bookService.createBook(book))
     }
 
     @PutMapping("/{bookId}")
-    fun updateBook(@RequestBody bookDto: BookDto): BookDto {
-        val book: Book = bookDtoMapper.mapBookDtoToBook(bookDto)
+    fun updateBook(@PathVariable bookId: Long, @RequestBody writeBookDto: WriteBookDto): BookDto {
+        val book: Book = bookDtoMapper.mapWriteBookDtoToBook(bookId, writeBookDto)
         return bookDtoMapper.mapBookToBookDto(bookService.updateBook(book))
     }
 

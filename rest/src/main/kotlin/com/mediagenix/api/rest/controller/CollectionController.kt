@@ -4,6 +4,7 @@ import com.mediagenix.api.core.model.Collection
 import com.mediagenix.api.core.service.CollectionService
 import com.mediagenix.api.rest.dto.collection.CollectionDto
 import com.mediagenix.api.rest.dto.collection.CreateCollectionDto
+import com.mediagenix.api.rest.dto.collection.UpdateCollectionDto
 import com.mediagenix.api.rest.mapper.CollectionDtoMapper
 import org.springframework.web.bind.annotation.*
 
@@ -28,9 +29,9 @@ class CollectionController(private val collectionService: CollectionService,
         return collectionDtoMapper.mapCollectionToCollectionDto(collectionService.createCollection(collection))
     }
 
-    @PutMapping
-    fun updateCollection(@RequestBody collectionDto: CollectionDto): CollectionDto {
-        val collection: Collection = collectionDtoMapper.mapCollectionDtoToCollection(collectionDto)
+    @PutMapping("/{collectionId}")
+    fun updateCollection(@PathVariable collectionId: Long, @RequestBody updateCollectionDto: UpdateCollectionDto): CollectionDto {
+        val collection: Collection = collectionDtoMapper.mapUpdateCollectionDtoToCollection(collectionId, updateCollectionDto)
         return collectionDtoMapper.mapCollectionToCollectionDto(collectionService.updateCollection(collection))
     }
 
@@ -40,8 +41,8 @@ class CollectionController(private val collectionService: CollectionService,
     }
 
     @PostMapping("/{collectionId}/books/{bookId}")
-    fun addBookToCollection(@PathVariable collectionId: Long, @PathVariable bookId: Long) {
-        collectionService.addBookToCollection(collectionId, bookId)
+    fun addBookToCollection(@PathVariable collectionId: Long, @PathVariable bookId: Long): CollectionDto {
+        return collectionDtoMapper.mapCollectionToCollectionDto(collectionService.addBookToCollection(collectionId, bookId))
     }
 
     @DeleteMapping("/{collectionId}/books/{bookId}")

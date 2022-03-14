@@ -8,6 +8,6 @@ interface CollectionInfrastructure {
     fun createCollection(collection: Collection): Collection
     fun updateCollection(collection: Collection): Collection
     fun deleteCollectionById(collectionId: Long)
-    fun addBookToCollection(collectionId: Long, bookId: Long)
+    fun addBookToCollection(collectionId: Long, bookId: Long): Collection
     fun deleteBookFromCollection(collectionId: Long, bookId: Long)
 }

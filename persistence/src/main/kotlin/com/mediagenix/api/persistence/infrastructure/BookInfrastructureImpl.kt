@@ -27,6 +27,9 @@ class BookInfrastructureImpl(private val bookRepository: BookRepository,
     }
 
     override fun updateBook(book: Book): Book {
+        if (!bookRepository.existsById(book.id)) {
+            throw BookNotFoundException()
+        }
         val booKEntity: com.mediagenix.api.persistence.entity.Book = bookEntityMapper.mapBookToBookEntity(book)
         return bookEntityMapper.mapBookEntityToBook(bookRepository.save(booKEntity))
     }
