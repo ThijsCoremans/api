@@ -12,9 +12,7 @@ class BookEntityMapperImpl: BookEntityMapper {
     }
 
     override fun mapBooksToBookEntities(books: MutableList<com.mediagenix.api.core.model.Book>): MutableList<Book> {
-        return books.stream()
-            .map { book -> mapBookToBookEntity(book) }
-            .toList()
+        return books.map { book -> mapBookToBookEntity(book) } as MutableList<Book>
     }
 
     override fun mapBookEntityToBook(bookEntity: Book): com.mediagenix.api.core.model.Book {
