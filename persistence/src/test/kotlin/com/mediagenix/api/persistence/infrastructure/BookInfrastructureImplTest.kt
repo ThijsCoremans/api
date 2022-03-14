@@ -18,21 +18,21 @@ internal class BookInfrastructureImplTest {
     private val bookInfrastructure: BookInfrastructure = BookInfrastructureImpl(bookRepository, bookEntityMapper)
 
     @Test
-    fun `getBookById throws exception if not found`() {
+    fun `getBookById throws exception if book not found`() {
         every { bookRepository.findById(any()) } returns Optional.empty()
 
         assertThrows(BookNotFoundException::class.java) { bookInfrastructure.getBookById(1) }
     }
 
     @Test
-    fun `updateBook throws exception if not found`() {
+    fun `updateBook throws exception if book not found`() {
         every { bookRepository.existsById(any()) } returns false
 
         assertThrows(BookNotFoundException::class.java) { bookInfrastructure.updateBook(Book(1, "title", "isbn", "author")) }
     }
 
     @Test
-    fun `deleteBookById throws exception if not found`() {
+    fun `deleteBookById throws exception if book not found`() {
         every { bookRepository.existsById(any()) } returns false
 
         assertThrows(BookNotFoundException::class.java) { bookInfrastructure.deleteBookById(1) }

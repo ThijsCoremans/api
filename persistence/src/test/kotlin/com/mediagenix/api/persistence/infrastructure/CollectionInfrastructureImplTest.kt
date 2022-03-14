@@ -21,21 +21,21 @@ internal class CollectionInfrastructureImplTest {
     private val collectionInfrastructure: CollectionInfrastructure = CollectionInfrastructureImpl(collectionRepository, bookRepository, collectionEntityMapper)
 
     @Test
-    fun `getCollectionById throws exception if not found`() {
+    fun `getCollectionById throws exception if collection not found`() {
         every { collectionRepository.findById(any()) } returns Optional.empty()
 
         assertThrows(CollectionNotFoundException::class.java) { collectionInfrastructure.getCollectionById(1) }
     }
 
     @Test
-    fun `updateCollection throws exception if not found`() {
+    fun `updateCollection throws exception if collection not found`() {
         every { collectionRepository.findById(any()) } returns Optional.empty()
 
         assertThrows(CollectionNotFoundException::class.java) { collectionInfrastructure.updateCollection(Collection(1, "name", arrayListOf())) }
     }
 
     @Test
-    fun `deleteCollectionById throws exception if not found`() {
+    fun `deleteCollectionById throws exception if collection not found`() {
         every { collectionRepository.existsById(any()) } returns false
 
         assertThrows(CollectionNotFoundException::class.java) { collectionInfrastructure.deleteCollectionById(1) }

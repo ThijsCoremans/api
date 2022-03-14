@@ -11,15 +11,7 @@ class CollectionServiceImpl(private val collectionInfrastructure: CollectionInfr
     override fun getCollectionById(collectionId: Long): Collection = collectionInfrastructure.getCollectionById(collectionId)
     override fun createCollection(collection: Collection): Collection = collectionInfrastructure.createCollection(collection)
     override fun updateCollection(collection: Collection): Collection = collectionInfrastructure.updateCollection(collection)
-    override fun deleteCollectionById(collectionId: Long) {
-        collectionInfrastructure.deleteCollectionById(collectionId)
-    }
-
-    override fun addBookToCollection(collectionId: Long, bookId: Long): Collection {
-        return collectionInfrastructure.addBookToCollection(collectionId, bookId)
-    }
-
-    override fun deleteBookFromCollection(collectionId: Long, bookId: Long) {
-        collectionInfrastructure.deleteBookFromCollection(collectionId, bookId)
-    }
+    override fun deleteCollectionById(collectionId: Long) = collectionInfrastructure.deleteCollectionById(collectionId)
+    override fun addBookToCollection(collectionId: Long, bookId: Long): Collection = collectionInfrastructure.addBookToCollection(collectionId, bookId)
+    override fun deleteBookFromCollection(collectionId: Long, bookId: Long) = collectionInfrastructure.deleteBookFromCollection(collectionId, bookId)
 }

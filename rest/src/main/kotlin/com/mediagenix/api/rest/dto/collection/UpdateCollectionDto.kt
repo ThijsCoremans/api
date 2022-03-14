@@ -1,5 +1,5 @@
 package com.mediagenix.api.rest.dto.collection
 
-class UpdateCollectionDto(
+data class UpdateCollectionDto(
     val name: String
 )
