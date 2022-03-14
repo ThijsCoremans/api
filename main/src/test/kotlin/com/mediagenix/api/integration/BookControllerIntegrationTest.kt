@@ -1,8 +1,7 @@
 package com.mediagenix.api.integration
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.mediagenix.api.rest.dto.book.BookDto
-import com.mediagenix.api.rest.dto.book.CreateBookDto
+import com.mediagenix.api.rest.dto.book.WriteBookDto
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.delete
@@ -63,11 +62,11 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
 
     @Test
     fun `createBook should create and return given book`() {
-        val createBookDto = CreateBookDto("title", "isbn", "author")
+        val writeBookDto = WriteBookDto("title", "isbn", "author")
 
         mockMvc.post(booksPath) {
             contentType = MediaType.APPLICATION_JSON
-            content = jacksonObjectMapper().writeValueAsString(createBookDto)
+            content = jacksonObjectMapper().writeValueAsString(writeBookDto)
         }
             .andExpect {
                 status { isOk() }
@@ -81,11 +80,11 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
 
     @Test
     fun `updateBook should update and return a book`() {
-        val bookDto = BookDto(52,"Brief Answers to the Big Questions v2", "978-1984819192", "Stephen Hawking")
+        val writeBookDto = WriteBookDto("Brief Answers to the Big Questions v2", "978-1984819192", "Stephen Hawking")
 
-        mockMvc.put(booksPath) {
+        mockMvc.put(booksPath.plus("/52")) {
             contentType = MediaType.APPLICATION_JSON
-            content = jacksonObjectMapper().writeValueAsString(bookDto)
+            content = jacksonObjectMapper().writeValueAsString(writeBookDto)
         }
             .andExpect {
                 status { isOk() }
@@ -94,6 +93,20 @@ internal class BookControllerIntegrationTest: AbstractRestControllerIntegrationT
                 jsonPath("$.title") { value("Brief Answers to the Big Questions v2") }
                 jsonPath("$.isbn") { value("978-1984819192") }
                 jsonPath("$.author") { value("Stephen Hawking") }
+            }
+    }
+
+    @Test
+    fun `updateBook should send not found with message if book not found`() {
+        val writeBookDto = WriteBookDto("Brief Answers to the Big Questions v2", "978-1984819192", "Stephen Hawking")
+
+        mockMvc.put(booksPath.plus("/100")) {
+            contentType = MediaType.APPLICATION_JSON
+            content = jacksonObjectMapper().writeValueAsString(writeBookDto)
+        }
+            .andExpect {
+                status { isNotFound() }
+                jsonPath("$.message") { value("Requested book has not been found") }
             }
     }
 
