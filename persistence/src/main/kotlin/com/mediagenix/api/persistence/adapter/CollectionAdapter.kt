@@ -1,9 +1,9 @@
-package com.mediagenix.api.persistence.infrastructure
+package com.mediagenix.api.persistence.adapter
 
 import com.mediagenix.api.core.exception.BookNotFoundException
 import com.mediagenix.api.core.exception.CollectionNotFoundException
-import com.mediagenix.api.core.infrastructure.CollectionInfrastructure
 import com.mediagenix.api.core.model.Collection
+import com.mediagenix.api.core.port.CollectionPort
 import com.mediagenix.api.persistence.entity.Book
 import com.mediagenix.api.persistence.mapper.CollectionEntityMapper
 import com.mediagenix.api.persistence.repository.BookRepository
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class CollectionInfrastructureImpl(private val collectionRepository: CollectionRepository,
-                                   private val bookRepository: BookRepository,
-                                   private val collectionEntityMapper: CollectionEntityMapper): CollectionInfrastructure {
+class CollectionAdapter(private val collectionRepository: CollectionRepository,
+                        private val bookRepository: BookRepository,
+                        private val collectionEntityMapper: CollectionEntityMapper): CollectionPort {
 
     override fun getALlCollections(): MutableList<Collection> {
         return collectionEntityMapper.mapCollectionEntitiesToCollections(collectionRepository.findAll(Sort.by("name")))

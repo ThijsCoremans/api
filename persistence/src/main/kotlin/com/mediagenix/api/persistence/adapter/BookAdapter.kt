@@ -1,16 +1,16 @@
-package com.mediagenix.api.persistence.infrastructure
+package com.mediagenix.api.persistence.adapter
 
 import com.mediagenix.api.core.exception.BookNotFoundException
-import com.mediagenix.api.core.infrastructure.BookInfrastructure
 import com.mediagenix.api.core.model.Book
+import com.mediagenix.api.core.port.BookPort
 import com.mediagenix.api.persistence.mapper.BookEntityMapper
 import com.mediagenix.api.persistence.repository.BookRepository
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 
 @Component
-class BookInfrastructureImpl(private val bookRepository: BookRepository,
-                             private val bookEntityMapper: BookEntityMapper): BookInfrastructure {
+class BookAdapter(private val bookRepository: BookRepository,
+                  private val bookEntityMapper: BookEntityMapper): BookPort {
     override fun getALlBooks(): MutableList<Book> {
         return bookEntityMapper.mapBookEntitiesToBooks(bookRepository.findAll(Sort.by("title")))
     }

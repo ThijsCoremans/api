@@ -1,8 +1,8 @@
-package com.mediagenix.api.core.infrastructure
+package com.mediagenix.api.core.port
 
 import com.mediagenix.api.core.model.Collection
 
-interface CollectionInfrastructure {
+interface CollectionPort {
     fun getALlCollections(): MutableList<Collection>
     fun getCollectionById(collectionId: Long): Collection
     fun createCollection(collection: Collection): Collection

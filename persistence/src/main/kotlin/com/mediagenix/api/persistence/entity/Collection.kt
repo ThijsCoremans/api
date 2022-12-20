@@ -1,6 +1,5 @@
 package com.mediagenix.api.persistence.entity
 
-import java.util.Collections.emptyList
 import javax.persistence.*
 
 @Entity
